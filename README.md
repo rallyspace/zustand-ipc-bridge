@@ -2,6 +2,13 @@
 
 Middleware to bridge zustand stores between isolated Electron contexts.
 
+## Demo
+
+[![Fiddle Button]][Fiddle Link]
+
+[Fiddle Link]: https://fiddle.electronjs.org/launch?target=gist/c5405a425ae4050cfd0f3e2e5cf7b5ad
+[Fiddle Button]: https://img.shields.io/badge/Open%20Electron%20Fiddle-ffb662?style=for-the-badge&color=ffb662
+
 ## Usage
 
 ```bash
