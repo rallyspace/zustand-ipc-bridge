@@ -1,0 +1,3 @@
+packages:
+  - "examples/one-to-one"
+  - "packages/zustand-ipc-bridge"
