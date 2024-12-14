@@ -33,3 +33,6 @@ shell.cp(["dist/types.js"], "dist/types.cjs");
 
 // point the export in the CJS index typedefs at the CJS types
 shell.sed("-i", "types.js", "types.cjs", "dist/index.d.cts");
+
+// copy the README from the root for the published npm module
+shell.cp(["../../README.md"], "README.md");

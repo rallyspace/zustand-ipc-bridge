@@ -12,7 +12,7 @@
     "build": "tsx scripts/build.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Atticus White <atticus@rally.space> (https://rally.space)",
   "exports": {
     ".": [
       {
