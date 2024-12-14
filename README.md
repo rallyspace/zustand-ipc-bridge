@@ -38,6 +38,7 @@ contextBridge.exposeInMainWorld("zustandBridge", createZustandBridge());
 ```ts
 import { create } from "zustand";
 import { ipcMiddleware } from "zustand-ipc-bridge/renderer";
+
 const store = create(ipcMiddleware(storeCreator, zustandBridge));
 ```
 
