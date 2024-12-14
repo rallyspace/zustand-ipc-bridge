@@ -1,8 +1,28 @@
 import Versions from './components/Versions'
 import electronLogo from './assets/electron.svg'
 
+import { createRendererStore } from '../../store.renderer'
+import { useEffect } from 'react'
+
+console.log('bridge', window.zustandBridge)
+const store = createRendererStore(window.zustandBridge)
+console.log('store', store)
 function App(): JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const state = store((state) => state)
+  const mainSetState = (): void => {
+    window.electron.ipcRenderer.send('ping')
+  }
+
+  const rendererSetState = () => {
+    store.getState().setValue(`from client ${Math.random()}`)
+  }
+
+  useEffect(() => {
+    const unsub = store.subscribe((state) => {
+      console.log('store.subscribe', state)
+    })
+    return () => unsub()
+  }, [])
 
   return (
     <>
@@ -12,8 +32,8 @@ function App(): JSX.Element {
         Build an Electron app with <span className="react">React</span>
         &nbsp;and <span className="ts">TypeScript</span>
       </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
+      <p>
+        <pre>{JSON.stringify(state, null, 2)}</pre>
       </p>
       <div className="actions">
         <div className="action">
@@ -22,8 +42,13 @@ function App(): JSX.Element {
           </a>
         </div>
         <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
+          <a target="_blank" rel="noreferrer" onClick={rendererSetState}>
+            Renderer {`->`} Main
+          </a>
+        </div>
+        <div className="action">
+          <a target="_blank" rel="noreferrer" onClick={mainSetState}>
+            Main {`->`} Renderer
           </a>
         </div>
       </div>

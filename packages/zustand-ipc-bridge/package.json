@@ -2,25 +2,90 @@
   "name": "zustand-ipc-bridge",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/esm/index.js",
-  "type": "commonjs",
-  "exports": {
-    ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js",
-      "default": "./src/index.ts"
-    }
-  },
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "node esbuild.dev.mjs"
+    "build-old": "node esbuild.dev.mjs",
+    "build": "tsx scripts/build.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "zustand": "^5.0.2"
+  "exports": {
+    ".": [
+      {
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/index.js"
+        },
+        "require": {
+          "types": "./dist/index.d.cts",
+          "default": "./dist/index.cjs"
+        }
+      },
+      "./dist/index.cjs"
+    ],
+    "./main": [
+      {
+        "import": {
+          "types": "./dist/main.d.ts",
+          "default": "./dist/main.js"
+        },
+        "require": {
+          "types": "./dist/main.d.cts",
+          "default": "./dist/main.cjs"
+        }
+      },
+      "./dist/main.cjs"
+    ],
+    "./preload": [
+      {
+        "import": {
+          "types": "./dist/preload.d.ts",
+          "default": "./dist/preload.js"
+        },
+        "require": {
+          "types": "./dist/preload.d.cts",
+          "default": "./dist/preload.cjs"
+        }
+      },
+      "./dist/preload.cjs"
+    ],
+    "./renderer": [
+      {
+        "import": {
+          "types": "./dist/renderer.d.ts",
+          "default": "./dist/renderer.js"
+        },
+        "require": {
+          "types": "./dist/renderer.d.cts",
+          "default": "./dist/renderer.cjs"
+        }
+      },
+      "./dist/renderer.cjs"
+    ]
+  },
+  "peerDependencies": {
+    "electron": ">=12",
+    "zustand": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "electron": {
+      "optional": false
+    },
+    "zustand": {
+      "optional": false
+    }
   },
   "devDependencies": {
-    "esbuild": "^0.24.0"
+    "@types/shelljs": "^0.8.15",
+    "esbuild": "^0.24.0",
+    "rollup": "^4.28.1",
+    "shelljs": "^0.8.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.2",
+    "zustand": "^5.0.2"
   }
 }

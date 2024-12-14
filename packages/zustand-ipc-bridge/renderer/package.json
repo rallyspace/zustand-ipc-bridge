@@ -1,0 +1,4 @@
+{
+  "main": "../dist/renderer.cjs",
+  "types": "../dist/renderer.d.cts"
+}

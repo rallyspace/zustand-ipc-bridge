@@ -5,22 +5,27 @@ import icon from '../../resources/icon.png?asset'
 
 import { mainStore } from '../store.main'
 
-function createWindow(): void {
+function createWindow(i = 0): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
+    width: 700,
     height: 670,
+    x: 200 + (700 + 20) * i,
+    y: 200,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      backgroundThrottling: false
     }
   })
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    mainWindow.webContents.send('init')
+    // mainWindow.webContents.openDevTools()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -52,19 +57,22 @@ app.whenReady().then(() => {
   })
 
   // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.on('ping', () => {
+    mainStore.getState().setValue(`from main ${Math.random()}`)
+  })
 
   mainStore.subscribe((state) => {
     console.log('mainStore.subscribe', state)
   })
-  mainStore.getState().setValue(Math.random())
 
-  createWindow()
+  createWindow(0)
+  createWindow(1)
+  createWindow(2)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) createWindow(0)
   })
 })
 
