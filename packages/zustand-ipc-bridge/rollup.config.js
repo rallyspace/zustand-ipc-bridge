@@ -28,4 +28,12 @@ export default [
     },
     ...sharedConfig,
   },
+  {
+    input: "./dist/renderer.js",
+    output: {
+      file: "./dist/renderer.cjs",
+      format: "cjs",
+    },
+    ...sharedConfig,
+  },
 ];
