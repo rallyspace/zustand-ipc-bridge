@@ -1,7 +1,8 @@
 {
   "name": "zustand-ipc-bridge",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/index.js",
@@ -12,7 +13,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "exports": {
     ".": [
       {
@@ -66,6 +66,10 @@
       },
       "./dist/renderer.cjs"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ralllyspace/zustand-ipc-bridge.git"
   },
   "peerDependencies": {
     "electron": ">=12",
