@@ -11,8 +11,19 @@ const emit = (state: any) => {
 export function ipcMiddleware(storeCreator: any) {
   return (set: any, get: any, api: any) => {
     ipcMain.handle("ipc.zustand.getState", () => sanitize(get()));
-    ipcMain.on("ipc.zustand.setState", (e, state) => set(state));
-    api.subscribe((state: any) => emit(sanitize(state)));
-    return storeCreator(set, get, api);
+    ipcMain.on("ipc.zustand.setState", (e, state) => {
+      set(state);
+      emit(state);
+    });
+    // Don't want to emit the entire state, as that will cause objects that haven't actually changed to be considered new states by the renderers
+    // api.subscribe((state: any) => emit(sanitize(state)));
+
+    const ipcSet = (val: any) => {
+      const value = typeof val === "function" ? val(get()) : val;
+      set(value);
+      emit(sanitize(value));
+    };
+
+    return storeCreator(ipcSet, get, api);
   };
 }
