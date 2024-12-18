@@ -1,4 +1,4 @@
 {
   "main": "../dist/main.cjs",
-  "types": "../dist/main.d.cts"
+  "types": "../dist/main.d.ts"
 }
